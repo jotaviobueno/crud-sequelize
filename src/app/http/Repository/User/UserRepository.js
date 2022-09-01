@@ -17,7 +17,7 @@ export default class repository {
 		this._password = password;
 	}
 
-	async Storage( ) {
+	async Storage ( ) {
 		return await UserModel.create({
 
 			user_id: nanoid(),

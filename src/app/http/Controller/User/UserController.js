@@ -13,20 +13,18 @@ class UserController {
 		const { username, email, password } = req.body;
 
 		if ( await UserHelper.ExistEmail( email ) )
-			return ResponseHelper.unprocessableEntity( res, { error:  "email already registered" });
+			return ResponseHelper.unprocessableEntity( res, { error: "email already registered" });
 
 		const StorageInformation = await new repository( username, email, password ).Storage();
 
 		if ( StorageInformation )
-			return ResponseHelper.created( res, 
-				{
-					username: StorageInformation.username,
-					email: StorageInformation.email,
-					createdAt: StorageInformation.createdAt
+			return ResponseHelper.created( res, {
+				username: StorageInformation.username,
+				email: StorageInformation.email,
+				createdAt: StorageInformation.createdAt
+			});
 
-				});
-
-		return ResponseHelper.unprocessableEntity( res, { error:  "unable to process request" });
+		return ResponseHelper.unprocessableEntity( res, { error: "unable to process request" });
 	}
 }
 
