@@ -4,6 +4,7 @@ import repository from "../../Repository/User/UserRepository.js";
 // Helper's
 import ResponseHelper from "../../../Helper/ResponseHelper.js";
 import UserHelper from "../../../Helper/User/UserHelper.js";
+import AuthLoginHelper from "../../../Helper/User/AuthLoginHelper.js";
 
 // Services
 
@@ -24,6 +25,32 @@ class UserController {
 				createdAt: StorageInformation.createdAt
 			});
 
+		return ResponseHelper.unprocessableEntity( res, { error: "unable to process request" });
+	}
+
+	async SeeAccount ( req, res ) {
+		const { session_id } = req.headers;
+
+		const SessionInformation = await AuthLoginHelper.ExistSession( session_id );
+
+		if (! SessionInformation )
+			return ResponseHelper.unprocessableEntity( res, { error: "session is invalid" });
+
+		const UserInfo = await UserHelper.ExistEmail( SessionInformation.email );
+
+		if (! UserInfo )
+			return ResponseHelper.unprocessableEntity( res, { error: "email already registered" });
+
+		if ( UserInfo )
+			return ResponseHelper.created( res, {
+				username: UserInfo.username,
+				email: UserInfo.email,
+				createdAt: UserInfo.createdAt,
+				updatedAt: UserInfo.updatedAt,
+				deletedAt: UserInfo.deletedAt
+
+			});
+	
 		return ResponseHelper.unprocessableEntity( res, { error: "unable to process request" });
 	}
 }
