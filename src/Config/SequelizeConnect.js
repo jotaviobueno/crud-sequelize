@@ -1,11 +1,11 @@
 import Sequelize from "sequelize";
 
-export const db = new Sequelize( "crud", "root", "abc123", {
+export const DataBase = new Sequelize( "crud", "root", "abc123", {
 	host: "localhost",
 	dialect: "mysql"
 });
 
-db.authenticate().then( () => {
+DataBase.authenticate().then( () => {
 
 	return true, console.log("Connected to MySQL");
 

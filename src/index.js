@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 const port = 8081;
 
 // DataBase Connect
-import {db} from "./Config/SequelizeConnect.js";
+import {DataBase} from "./Config/SequelizeConnect.js";
 
 // Routes
 import {UserRoutes} from "./app/Routes/UserRoutes.js";
@@ -23,7 +23,7 @@ app.use(express.json());
 app.use("/", UserRoutes);
 
 
-if ( db ) {
+if ( DataBase ) {
 	app.listen( port, () => {
 		console.log( "listen on!" );
 	});
