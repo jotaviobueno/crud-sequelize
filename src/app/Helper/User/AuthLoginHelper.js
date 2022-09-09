@@ -18,6 +18,15 @@ class AuthLoginHelper {
 
 		return findId;
 	}
+
+	async VerifySession ( email ) {
+		const findAllSession = await LoginModel.findAll( { where: { email: email, disconnected_in: null } });
+
+		if ( findAllSession.length >= 1 )
+			findAllSession.forEach( async ( session ) => {
+				return await LoginModel.update({ disconnected_in: new Date() }, { where: { email: session.dataValues.email, disconnected_in: null } });
+			});
+	}
 }
 
 export default new AuthLoginHelper;

@@ -20,6 +20,8 @@ class AuthLoginController {
 
 		if (! await AuthLoginHelper.ComparePassword( password, UserInfo.password ) )
 			return ResponseHelper.notAuthorized( res, { error: "invalid credentials" });
+			
+		await AuthLoginHelper.VerifySession( UserInfo.email );
 
 		const SessionInformation = await new repository( email ).CreateSession();
 
