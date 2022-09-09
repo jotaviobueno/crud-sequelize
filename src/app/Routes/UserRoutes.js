@@ -14,3 +14,4 @@ UserRoutes.post( "/register", UserController.Storage );
 UserRoutes.post( "/login", AuthLoginController.CreateSession );
 UserRoutes.get( "/my-account", UserController.SeeAccount );
 UserRoutes.patch( "/update-name", UpdateController.UpdateName );
+UserRoutes.delete( "/my-account/delete", UserController.DeleteAccount );

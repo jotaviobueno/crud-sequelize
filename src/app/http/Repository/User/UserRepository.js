@@ -4,16 +4,17 @@ import bcrypt from "bcrypt";
 
 // Model's
 import UserModel from "../../../Models/User/UserModel.js";
+import Loginmodel from "../../../Models/User/LoginModel.js";
 
 export default class repository {
 	// Private
-	_username;
 	_email;
+	_username;
 	_password;
 
-	constructor( username, email, password ) {
-		this._username = username;
+	constructor( email, username, password ) {
 		this._email = email;
+		this._username = username;
 		this._password = password;
 	}
 
@@ -27,5 +28,18 @@ export default class repository {
 			deletedAt: null
 
 		});
+	}
+
+	async disconnectAllSession () {
+		const findAllSession = await Loginmodel.findAll( { where: { email: this._email, disconnected_in: null } });
+
+		findAllSession.forEach( async ( session ) => {
+
+			return await Loginmodel.update({ disconnected_in: new Date() }, { where: { email: session.dataValues.email, disconnected_in: null } });
+		});
+	}
+
+	async Delete ( ) {
+		return await UserModel.update({ deletedAt: new Date() }, { where: { email: this._email, deletedAt: null } });
 	}
 }
