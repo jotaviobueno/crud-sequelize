@@ -53,6 +53,7 @@ class UserController {
 	
 		return ResponseHelper.unprocessableEntity( res, { error: "unable to process request" });
 	}
+
 }
 
 export default new UserController;

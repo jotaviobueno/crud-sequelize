@@ -29,6 +29,8 @@ class AuthLoginController {
 				email: SessionInformation.email,
 				session_id: SessionInformation.session_id
 			});
+
+		return ResponseHelper.unprocessableEntity( res, { error: "unable to process request" });
 	} 
 }
 
